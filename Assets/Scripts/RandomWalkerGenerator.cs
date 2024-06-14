@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -28,6 +29,12 @@ public class RandomWalkerGenerator : MonoBehaviour
     public int tileCount = default;
     public float fillPercent = 0.5f;
 
+    public Node nodePrefab;
+    public List<Node> nodeList;
+
+    public NPC_Controller npc;
+
+    private bool canDrawGizmos;
 
     private void Awake()
     {
@@ -189,7 +196,73 @@ public class RandomWalkerGenerator : MonoBehaviour
                 }
             }
         }
+
+        CreateNodes();
     }
+
+    void CreateNodes()
+    {
+        for(int x = 0; x < grid.GetLength(0); x++)
+        {
+            for(int y = 0; y < grid.GetLength(1); y++)
+            {
+                if (grid[x,y] == Grid.Floor)
+                {
+                    Node node = Instantiate(nodePrefab, new Vector2(x+ 0.5f, y + 0.5f), Quaternion.identity);
+                    nodeList.Add(node);
+                }
+            }
+        }
+        CreateConnections();
+    }
+
+    void CreateConnections()
+    {
+        for(int i = 0; i < nodeList.Count; i++)
+        {
+            for(int j = i + 1; j < nodeList.Count; j++)
+            {
+                if (Vector2.Distance(nodeList[i].transform.position, nodeList[j].transform.position) <= 1.0f)
+                {
+                    ConnectNodes(nodeList[i], nodeList[j]);
+                    ConnectNodes(nodeList[j], nodeList[i]);
+                }
+            }
+        }
+        canDrawGizmos = true;
+        SpawnAI();
+    }
+
+    void ConnectNodes(Node from, Node to)
+    {
+        if(from == to) { return; }
+
+        from.connections.Add(to);
+    }
+
+    void SpawnAI()
+    {
+        Node randNode = nodeList[Random.Range(0, nodeList.Count)];
+
+        NPC_Controller newNPC = Instantiate(npc, randNode.transform.position, Quaternion.identity);
+
+        newNPC.currentNode = randNode;
+    }
+
+/*    private void OnDrawGizmos()
+    {
+        if (canDrawGizmos)
+        {
+            Gizmos.color = Color.blue;
+            for(int i =0; i < nodeList.Count; i++)
+            {
+                for(int j = 0; j < nodeList[i].connections.Count; j++)
+                {
+                    Gizmos.DrawLine(nodeList[i].transform.position, nodeList[i].connections[j].transform.position);
+                }
+            }
+        }
+    }*/
 }
 
 public class Walker
