@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class NPC_Controller : MonoBehaviour
 {
+    public int maxHealth = 100;
+    public int curHealth;
+    public int panicMultiplier = 1;
+
+
     public Node currentNode;
     public List<Node> path = new List<Node>();
 
@@ -20,13 +25,11 @@ public class NPC_Controller : MonoBehaviour
 
     public PlayerController player;
 
-    public int maxHealth = 100;
-    [Range(0, 100)]
-    public int curHealth;
+    public float speed = 3f;
 
     private void Start()
     {
-        
+        curHealth = maxHealth;
     }
 
     private void Update()
@@ -46,19 +49,21 @@ public class NPC_Controller : MonoBehaviour
 
         bool playerSeen = Vector2.Distance(transform.position, player.transform.position) < 5.0f;
 
-        if(!playerSeen && currentState != StateMachine.Patrol && path.Count == 0)
+        if(!playerSeen && currentState != StateMachine.Patrol && curHealth > (maxHealth * 20) / 100)
         {
             currentState = StateMachine.Patrol;
             path.Clear();
-        }else if(playerSeen && currentState != StateMachine.Engage && curHealth > (maxHealth/5))
+        }else if(playerSeen && currentState != StateMachine.Engage && curHealth > (maxHealth * 20) / 100)
         {
             currentState = StateMachine.Engage;
             path.Clear();
-        }else if(playerSeen && currentState != StateMachine.Evade && curHealth <= (maxHealth / 5))
+        }else if(currentState != StateMachine.Evade && curHealth <= (maxHealth * 20) / 100)
         {
+            panicMultiplier = 2;
             currentState = StateMachine.Evade;
             path.Clear();
         }
+
         CreatePath();
     }
 
@@ -91,7 +96,7 @@ public class NPC_Controller : MonoBehaviour
         if (path.Count > 0)
         {
             int x = 0;
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(path[x].transform.position.x, path[x].transform.position.y, -2), 3 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(path[x].transform.position.x, path[x].transform.position.y, -2), (speed * panicMultiplier) * Time.deltaTime);
 
             if (Vector2.Distance(transform.position, path[x].transform.position) < 0.1f)
             {
@@ -99,13 +104,5 @@ public class NPC_Controller : MonoBehaviour
                 path.RemoveAt(x);
             }
         }
-/*        else
-        {
-            Node[] nodes = FindObjectsOfType<Node>();
-            while (path == null || path.Count == 0)
-            {
-                path = AStarManager.instance.GeneratePath(currentNode, nodes[Random.Range(0, nodes.Length)]);
-            }
-        }*/
     }
 }

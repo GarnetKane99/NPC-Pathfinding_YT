@@ -662,6 +662,10 @@ PrefabInstance:
       propertyPath: currentNode
       value: 
       objectReference: {fileID: 1823622130}
+    - target: {fileID: 2931406656750673670, guid: 8d0e89b3b84c8e64482da99ce3c456ef, type: 3}
+      propertyPath: panicMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6297282267872520814, guid: 8d0e89b3b84c8e64482da99ce3c456ef, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -709,7 +713,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2174561089286318774, guid: 8d0e89b3b84c8e64482da99ce3c456ef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1271407943}
   m_SourcePrefab: {fileID: 100100000, guid: 8d0e89b3b84c8e64482da99ce3c456ef, type: 3}
 --- !u!1001 &343394411
 PrefabInstance:
@@ -2920,6 +2927,46 @@ Transform:
   m_Father: {fileID: 1551842944}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1271407939 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2174561089286318774, guid: 8d0e89b3b84c8e64482da99ce3c456ef, type: 3}
+  m_PrefabInstance: {fileID: 327719126}
+  m_PrefabAsset: {fileID: 0}
+--- !u!58 &1271407943
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1271407939}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &1311399683
 GameObject:
   m_ObjectHideFlags: 0
@@ -3500,7 +3547,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1510260916}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: groundcheck
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
@@ -4042,7 +4089,7 @@ GameObject:
   - component: {fileID: 1642214730}
   - component: {fileID: 1642214731}
   - component: {fileID: 1642214732}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4209,6 +4256,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   isGrounded: 0
+  projectile: {fileID: 6478134125410734355, guid: 1bc2a8b26c47f44cd9778447c737e29f, type: 3}
+  lastInput: 1
 --- !u!1 &1644679496
 GameObject:
   m_ObjectHideFlags: 0
